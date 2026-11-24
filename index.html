@@ -3,24 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>申請アプリ</title>
+<title>文書改訂申請</title>
+
+<style>
+body{
+    font-family: sans-serif;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+input, textarea{
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button{
+    background: #00c73c;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover{
+    opacity: 0.9;
+}
+</style>
+
 </head>
 <body>
 
 <h1>文書改訂申請</h1>
 
-<p>文書番号</p>
-<input type="text">
+<label>文書番号</label>
+<input type="text" id="documentNo">
 
-<p>文書名</p>
-<input type="text">
+<label>文書名</label>
+<input type="text" id="documentName">
 
-<p>改訂理由</p>
-<textarea rows="5"></textarea>
+<label>改訂理由</label>
+<textarea id="reason" rows="5"></textarea>
 
-<br><br>
+<button onclick="sendRequest()">申請</button>
 
-<button>申請</button>
+<script>
+
+async function sendRequest(){
+
+    const data = {
+        documentNo: document.getElementById("documentNo").value,
+        documentName: document.getElementById("documentName").value,
+        reason: document.getElementById("reason").value
+    };
+
+    try {
+
+        const response = await fetch(
+            "https://script.google.com/macros/s/AKfycbwDqUp8Czq3u-JvcdoGwULa19O8KYeeLtvjBmB84AZDSYJs-aCInuqMFlcwAcW7d3lM2Q/exec",
+            {
+                method: "POST",
+                body: JSON.stringify(data)
+            }
+        );
+
+        alert("申請を送信しました");
+
+    } catch(e){
+
+        alert("送信エラー");
+
+    }
+}
+</script>
 
 </body>
 </html>
